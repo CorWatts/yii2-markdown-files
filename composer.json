@@ -1,0 +1,34 @@
+{
+	"name": "corwatts/yii2-flat-blog",
+	"description": "A simple flat-file blog or news feed",
+  "version": "1.0.0",
+	"keywords": [
+		"yii2",
+		"blog",
+		"markdown",
+    "flat"
+	],
+	"homepage": "https://github.com/CorWatts/yii2-flat-blog",
+	"type": "yii2-extension",
+	"license": "BSD-3-Clause",
+	"authors": [
+		{
+			"name": "Corey Watts",
+			"email": "corey@haaswatts.com"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/CorWatts/yii2-flat-blog/issues",
+		"source": "https://github.com/CorWatts/yii2-flat-blog"
+	},
+	"require": {
+    "php": ">=5.6",
+    "hyn/frontmatter": "~1.1",
+		"yiisoft/yii2": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"corwatts\\flat\\": ""
+		}
+	}
+}
