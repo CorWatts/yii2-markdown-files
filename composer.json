@@ -1,14 +1,15 @@
 {
-	"name": "corwatts/yii2-flat-blog",
-	"description": "A simple flat-file blog or news feed",
+	"name": "corwatts/yii2-markdown-files",
+	"description": "A simple flat-file Markdown renderer",
   "version": "1.0.0",
 	"keywords": [
 		"yii2",
 		"blog",
-		"markdown",
-    "flat"
+    "flat",
+    "file",
+		"markdown"
 	],
-	"homepage": "https://github.com/CorWatts/yii2-flat-blog",
+	"homepage": "https://github.com/CorWatts/yii2-markdown-files",
 	"type": "yii2-extension",
 	"license": "BSD-3-Clause",
 	"authors": [
@@ -18,17 +19,27 @@
 		}
 	],
 	"support": {
-		"issues": "https://github.com/CorWatts/yii2-flat-blog/issues",
-		"source": "https://github.com/CorWatts/yii2-flat-blog"
+		"issues": "https://github.com/CorWatts/yii2-markdown-files/issues",
+		"source": "https://github.com/CorWatts/yii2-markdown-files"
 	},
+  "scripts": {
+    "test": "codecept run",
+    "test-coverage": "codecept run --coverage --coverage-xml --coverage-html --ansi"
+  },
 	"require": {
     "php": ">=5.6",
     "hyn/frontmatter": "~1.1",
 		"yiisoft/yii2": "*"
 	},
+	"require-dev": {
+    "codeception/base": "^2.2.3",
+    "codeception/verify": "~0.3.1",
+    "codeception/specify": "~0.4.3",
+		"codeception/codeception": "^2.2"
+	},
 	"autoload": {
 		"psr-4": {
-			"corwatts\\flat\\": ""
+			"corwatts\\MarkdownFiles\\": ""
 		}
 	}
 }
