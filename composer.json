@@ -24,6 +24,7 @@
 	},
   "scripts": {
     "test": "codecept run",
+    "test-scaffold": "codecept build",
     "test-coverage": "codecept run --coverage --coverage-xml --coverage-html --ansi"
   },
 	"require": {

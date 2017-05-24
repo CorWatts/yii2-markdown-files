@@ -1,5 +1,8 @@
 # Yii2 Markdown Files
 
+[![Build Status](https://travis-ci.org/CorWatts/yii2-markdown-files.svg?branch=master)](https://travis-ci.org/CorWatts/yii2-markdown-files)
+[![codecov](https://codecov.io/gh/CorWatts/yii2-markdown-files/branch/master/graph/badge.svg)](https://codecov.io/gh/CorWatts/yii2-markdown-files)
+
 yii2-markdown-files provides a simple way to write updates, posts, or blocks of text in individual Markdown files with YAML frontmatter, render them on the fly and use the rendered HTML and frontmatter however you like. Commonly this is used to put the rendered text into a partial or view file.
 
 Give updates on your Yii2 site or have a list of posts for a simple blog or news feed. Store your posts in version control with the rest of your code. **No database required!**
