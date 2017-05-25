@@ -21,7 +21,7 @@ Enable the module by adding the snippet below to your main.php configuration fil
 ```php
 'modules' => [
   'blog' => [ // name this module what you like
-    'class' => 'corwatts\MarkdownFiles\Module',
+    'class' => \corwatts\MarkdownFiles\Module::className(),
     'posts' => '@frontend/views/blog/posts',
     'drafts' => '@frontend/views/blog/drafts',
   ]
@@ -43,7 +43,7 @@ return $this->render('index', ['posts'=>$posts]); //render our view
 
 You can render this data in a simple partial like this:
 
-```html
+```php
 <?php
 use \yii\helpers\Html;
 
