@@ -9,8 +9,6 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface {
   public $posts;
   public $drafts;
 
-  public $draft;
-
   public $file_regex = '/([[:digit:]]{4})-([[:digit:]]{2})-([[:digit:]]{2})_([0-9a-z_]*).md$/i';
 
   public function bootstrap($app) {
@@ -48,16 +46,12 @@ HEREDOC;
 
   public function getMarkdownFiles() {
     $params = ['recursive'=>false, 'only'=> ['*.md']];
-    try {
-      $files = FileHelper::findFiles($this->getPath($this->posts), $params);
-      //if(defined('YII_ENV') && (YII_ENV==='dev' || YII_ENV==='test')) {
-      if(defined('YII_ENV') && YII_ENV==='dev') {
-        $files = array_merge($files, FileHelper::findFiles($this->getPath($this->drafts), $params));
-      }
-    } catch (Exception $e) {
-      $this->stdout($e->message);
+    $files = FileHelper::findFiles($this->getPath($this->posts), $params);
+    //if(defined('YII_ENV') && (YII_ENV==='dev' || YII_ENV==='test')) {
+    if(defined('YII_ENV') && YII_ENV==='dev') {
+      $files = array_merge($files, FileHelper::findFiles($this->getPath($this->drafts), $params));
     }
-    rsort($files); // reverse sort these
+    rsort($files); // reverse sort these files
     return $files;
   }
 
@@ -82,10 +76,13 @@ HEREDOC;
 
   public function parseName($filepath) {
     if(preg_match($this->file_regex, $filepath, $matches)) {
-      return ['year'  => $matches[1],
+      return [
+        'year'  => $matches[1],
         'month' => $matches[2],
         'day'   => $matches[3],
-        'name'  => $matches[4]];
+        'full'  => implode("-", array_slice($matches, 1, 3)),
+        'name'  => $matches[4]
+      ];
     }
     return false;
   }
