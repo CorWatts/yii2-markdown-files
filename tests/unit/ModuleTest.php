@@ -7,7 +7,7 @@ use Codeception\Specify;
 use \corwatts\MarkdownFiles\Module;
 use \InvalidArgumentException;
 
-class BlogTest extends \Codeception\Test\Unit {
+class ModuleTest extends \Codeception\Test\Unit {
   use Specify;
 
   public function testParseName() {
@@ -43,54 +43,114 @@ class BlogTest extends \Codeception\Test\Unit {
     expect('create should accept refuse to create a malformed filename', $this->assertFalse($blog->create('bad/name/here')));
   }
 
-  public function testGetMarkdownFiles() {
+  public function testFetch() {
     $blog = new Module('blog');
     $blog->posts = dirname(__DIR__)."/_data/posts";
     $blog->drafts = dirname(__DIR__)."/_data/drafts";
 
-    expect('getMarkdownFiles should scan the $posts directory and return the markdown files in descending order', $this->assertEquals([
-      dirname(__DIR__).'/_data/posts/2017-05-20_test_post_3.md',
-      dirname(__DIR__).'/_data/posts/2017-05-20_test_post_2.md',
-      dirname(__DIR__).'/_data/posts/2017-05-20_test_post_1.md',
-      ], $blog->getMarkdownFiles()));
+    expect('fetch should scan the $posts directory and return the markdown files in descending order', $this->assertEquals([
+        dirname(__DIR__).'/_data/posts/2017-05-20_test_post_1.md',
+        dirname(__DIR__).'/_data/posts/2017-05-21_test_post_2.md',
+        dirname(__DIR__).'/_data/posts/2017-05-22_test_post_3.md',
+        dirname(__DIR__).'/_data/drafts/2017-05-23_test_draft_1.md',
+        dirname(__DIR__).'/_data/drafts/2017-05-24_test_draft_2.md',
+        dirname(__DIR__).'/_data/drafts/2017-05-24_test_draft_3.md',
+      ], $blog->fetch()->files));
 
-    //expect('getMarkdownFiles should include the $drafts directory when the YII_ENV environment variable is set to "dev"', $this->assertEquals([
-    //  dirname(__DIR__).'/_data/posts/2017-05-20_test_draft_3.md',
-    //  dirname(__DIR__).'/_data/posts/2017-05-20_test_draft_2.md',
-    //  dirname(__DIR__).'/_data/posts/2017-05-20_test_draft_1.md',
-    //  dirname(__DIR__).'/_data/posts/2017-05-20_test_post_3.md',
-    //  dirname(__DIR__).'/_data/posts/2017-05-20_test_post_2.md',
-    //  dirname(__DIR__).'/_data/posts/2017-05-20_test_post_1.md',
-    //  ], $blog->getMarkdownFiles()));
-    
-    $this->specify('getMarkdownFiles should throw an exception', function() use($blog) {
+    $this->specify('fetch should throw an exception', function() use($blog) {
       $this->expectException('\yii\base\InvalidParamException');
       $this->expectExceptionMessage('The dir argument must be a directory: /bad/path/here/so/throw');
       $blog->posts = '/bad/path/here/so/throw';
-      expect('getMarkdownFiles should throw an exception if FileHelper:findFiles() throws', $blog->getMarkdownFiles());
+      expect('fetch should throw an exception if FileHelper:findFiles() throws', $blog->fetch()->files);
     });
   }
 
-  public function testParseFiles() {
+  public function testParse() {
     $blog = new Module('blog');
     $blog->posts = dirname(__DIR__)."/_data/posts";
     $blog->drafts = dirname(__DIR__)."/_data/drafts";
 
-    expect('parseFiles should accept an array of valid markdown files, parse them, and return an array of data for each post', $this->assertEquals($blog->parseFiles($blog->getMarkdownFiles()), [
-      [
-        'date' => ['year' => '2017', 'month' => '05', 'day' => '20', 'full' => '2017-05-20', 'name' => 'test_post_3'],
-        'yaml' => ['author' => 'Your Name', 'title' => 'Blog Title'],
-        'content' => "<p>A post</p>\n",
-      ], [
-        'date' => ['year' => '2017', 'month' => '05', 'day' => '20', 'full' => '2017-05-20', 'name' => 'test_post_2'],
-        'yaml' => ['author' => 'Your Name', 'title' => 'Blog Title'],
-        'content' => "<p>A post</p>\n",
-      ], [
-        'date' => ['year' => '2017', 'month' => '05', 'day' => '20', 'full' => '2017-05-20', 'name' => 'test_post_1'],
-        'yaml' => ['author' => 'Your Name', 'title' => 'Blog Title'],
-        'content' => "<p>A post</p>\n",
-      ],
-    ]));
+    expect('Parse should accept an array of valid markdown files, parse them, and return an array of data for each post', $this->assertEquals($blog->parse($blog->fetch()->files)->results, [
+	[
+		'date' => [
+			'year' => '2017',
+			'month' => '05',
+			'day' => '20',
+			'full' => '2017-05-20',
+			'name' => 'test_post_1',
+		],
+		'yaml' => [
+			'author' => 'Your Name',
+			'title' => 'Blog Title',
+		],
+		'content' => "<p>A post</p>\n",
+	], [
+		'date' => [
+			'year' => '2017',
+			'month' => '05',
+			'day' => '21',
+			'full' => '2017-05-21',
+			'name' => 'test_post_2',
+		],
+		'yaml' => [
+			'author' => 'Your Name',
+			'title' => 'Blog Title',
+		],
+		'content' => "<p>A post</p>\n",
+	], [
+		'date' => [
+			'year' => '2017',
+			'month' => '05',
+			'day' => '22',
+			'full' => '2017-05-22',
+			'name' => 'test_post_3',
+		],
+		'yaml' => [
+			'author' => 'Your Name',
+			'title' => 'Blog Title',
+		],
+		'content' => "<p>A post</p>\n",
+	], [
+		'date' => [
+			'year' => '2017',
+			'month' => '05',
+			'day' => '23',
+			'full' => '2017-05-23',
+			'name' => 'test_draft_1',
+		],
+		'yaml' => [
+			'author' => 'Your Name',
+			'title' => 'Blog Title',
+		],
+		'content' => "<p>A post</p>\n",
+	], [
+		'date' => [
+			'year' => '2017',
+			'month' => '05',
+			'day' => '24',
+			'full' => '2017-05-24',
+			'name' => 'test_draft_2',
+		],
+		'yaml' => [
+			'author' => 'Your Name',
+			'title' => 'Blog Title',
+		],
+		'content' => "<p>A post</p>\n",
+	], [
+		'date' => [
+			'year' => '2017',
+			'month' => '05',
+			'day' => '24',
+			'full' => '2017-05-24',
+			'name' => 'test_draft_3',
+		],
+		'yaml' => [
+			'author' => 'Your Name',
+			'title' => 'Blog Title',
+		],
+		'content' => "<p>A post</p>\n",
+	]
+]));
   }
 
   public function testGetPath() {
@@ -105,6 +165,14 @@ class BlogTest extends \Codeception\Test\Unit {
       $this->expectException("\InvalidArgumentException");
       expect('getPath should only accept a string',  $blog->getPath(123));
     });
+  }
+
+  public function testSort() {
+    $blog = new Module('blog');
+    $data = require_once(dirname(__DIR__).'/_data/parsed_file_list.php');
+    $sorted_data = require_once(dirname(__DIR__).'/_data/sorted_file_list.php');
+
+    expect('sort should sort an array of parsed files by date descending', $this->assertEquals($blog->sort($data), $sorted_data));
   }
 }
 

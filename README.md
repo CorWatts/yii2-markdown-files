@@ -3,14 +3,14 @@
 [![Build Status](https://travis-ci.org/CorWatts/yii2-markdown-files.svg?branch=master)](https://travis-ci.org/CorWatts/yii2-markdown-files)
 [![codecov](https://codecov.io/gh/CorWatts/yii2-markdown-files/branch/master/graph/badge.svg)](https://codecov.io/gh/CorWatts/yii2-markdown-files)
 
-yii2-markdown-files provides a simple way to write updates, posts, or blocks of text in individual Markdown files with YAML frontmatter, render them on the fly and use the rendered HTML and frontmatter however you like. Commonly this is used to put the rendered text into a partial or view file.
+yii2-markdown-files provides a simple way to write updates, posts, or blocks of text in individual Markdown files with YAML frontmatter, render them on the fly and use the rendered HTML and frontmatter however you like.
 
 Give updates on your Yii2 site or have a list of posts for a simple blog or news feed. Store your posts in version control with the rest of your code. **No database required!**
 
-_Note: The idea for this was influenced by Jekyll, a static website generator written in Ruby._
+The idea for this extension was influenced by Jekyll, a static website generator written in Ruby.
 
 ## Installation
-Install via composer a la:  
+Install via composer:  
 ```bash
 composer require 'corwatts/yii2-markdown-files'
 ```
@@ -80,13 +80,17 @@ After running files through `parseFiles()` you'll have an array of arrays that l
 You can then iterate over the arrays and render the posts in your view partial.
 
 ```php
-$blog = \Yii::$app->getModule('blog'); // get module instance
-$files = $blog->getMarkdownFiles();    // get a list of markdown files
-$posts = $blog->parseFiles($files);    // parse the list of files
-return $this->render('index', ['posts'=>$posts]); //render our view
+$posts = \Yii::$app->getModule('blog'); // get module instance
+                   ->fetch()    // get a list of markdown files
+                   ->parse()    // parse the list of files
+                   ->result;    // grab the array of parsed files
+return $this->render('index', ['posts'=>$posts]); //render the view
 ```
 
-You can render this data in a simple partial like this:
+_Protip:_ Cache the results to avoid having to recompile all your posts on every page
+hit.
+
+Now you can render this data in a simple partial like this:
 
 ```php
 <?php
