@@ -73,7 +73,7 @@ HEREDOC;
       }
     }
 
-    $this->sort($posts);
+    $posts = $this->sort($posts);
     $this->results = $posts;
     return $this;
   }
