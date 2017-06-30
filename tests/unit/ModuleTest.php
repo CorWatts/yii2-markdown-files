@@ -54,7 +54,7 @@ class ModuleTest extends \Codeception\Test\Unit {
         dirname(__DIR__).'/_data/posts/2017-05-22_test_post_3.md',
         dirname(__DIR__).'/_data/drafts/2017-05-23_test_draft_1.md',
         dirname(__DIR__).'/_data/drafts/2017-05-24_test_draft_2.md',
-        dirname(__DIR__).'/_data/drafts/2017-05-24_test_draft_3.md',
+        dirname(__DIR__).'/_data/drafts/2017-05-25_test_draft_3.md',
       ], $blog->fetch()->files));
 
     $this->specify('fetch should throw an exception', function() use($blog) {
@@ -66,91 +66,13 @@ class ModuleTest extends \Codeception\Test\Unit {
   }
 
   public function testParse() {
+    $sorted_data = require(dirname(__DIR__).'/_data/sorted_file_list.php');
+
     $blog = new Module('blog');
     $blog->posts = dirname(__DIR__)."/_data/posts";
     $blog->drafts = dirname(__DIR__)."/_data/drafts";
 
-    expect('Parse should accept an array of valid markdown files, parse them, and return an array of data for each post', $this->assertEquals($blog->parse($blog->fetch()->files)->results, [
-	[
-		'date' => [
-			'year' => '2017',
-			'month' => '05',
-			'day' => '20',
-			'full' => '2017-05-20',
-			'name' => 'test_post_1',
-		],
-		'yaml' => [
-			'author' => 'Your Name',
-			'title' => 'Blog Title',
-		],
-		'content' => "<p>A post</p>\n",
-	], [
-		'date' => [
-			'year' => '2017',
-			'month' => '05',
-			'day' => '21',
-			'full' => '2017-05-21',
-			'name' => 'test_post_2',
-		],
-		'yaml' => [
-			'author' => 'Your Name',
-			'title' => 'Blog Title',
-		],
-		'content' => "<p>A post</p>\n",
-	], [
-		'date' => [
-			'year' => '2017',
-			'month' => '05',
-			'day' => '22',
-			'full' => '2017-05-22',
-			'name' => 'test_post_3',
-		],
-		'yaml' => [
-			'author' => 'Your Name',
-			'title' => 'Blog Title',
-		],
-		'content' => "<p>A post</p>\n",
-	], [
-		'date' => [
-			'year' => '2017',
-			'month' => '05',
-			'day' => '23',
-			'full' => '2017-05-23',
-			'name' => 'test_draft_1',
-		],
-		'yaml' => [
-			'author' => 'Your Name',
-			'title' => 'Blog Title',
-		],
-		'content' => "<p>A post</p>\n",
-	], [
-		'date' => [
-			'year' => '2017',
-			'month' => '05',
-			'day' => '24',
-			'full' => '2017-05-24',
-			'name' => 'test_draft_2',
-		],
-		'yaml' => [
-			'author' => 'Your Name',
-			'title' => 'Blog Title',
-		],
-		'content' => "<p>A post</p>\n",
-	], [
-		'date' => [
-			'year' => '2017',
-			'month' => '05',
-			'day' => '24',
-			'full' => '2017-05-24',
-			'name' => 'test_draft_3',
-		],
-		'yaml' => [
-			'author' => 'Your Name',
-			'title' => 'Blog Title',
-		],
-		'content' => "<p>A post</p>\n",
-	]
-]));
+    expect('Parse should accept an array of valid markdown files, parse them, and return an array of data for each post', $this->assertEquals($blog->parse($blog->fetch()->files)->results, $sorted_data));
   }
 
   public function testGetPath() {
@@ -169,8 +91,8 @@ class ModuleTest extends \Codeception\Test\Unit {
 
   public function testSort() {
     $blog = new Module('blog');
-    $data = require_once(dirname(__DIR__).'/_data/parsed_file_list.php');
-    $sorted_data = require_once(dirname(__DIR__).'/_data/sorted_file_list.php');
+    $data        = require(dirname(__DIR__).'/_data/parsed_file_list.php');
+    $sorted_data = require(dirname(__DIR__).'/_data/sorted_file_list.php');
 
     expect('sort should sort an array of parsed files by date descending', $this->assertEquals($blog->sort($data), $sorted_data));
   }

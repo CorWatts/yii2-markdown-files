@@ -70,7 +70,7 @@ return [
     'date' => [
       'year' => '2017',
       'month' => '05',
-      'day' => '24',
+      'day' => '25',
       'full' => '2017-05-25',
       'name' => 'test_draft_3',
     ],

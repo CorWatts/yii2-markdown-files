@@ -1,7 +1,6 @@
 {
   "name": "corwatts/yii2-markdown-files",
   "description": "A simple flat-file Markdown renderer",
-  "version": "2.0.0",
   "keywords": [
     "yii2",
     "blog",
