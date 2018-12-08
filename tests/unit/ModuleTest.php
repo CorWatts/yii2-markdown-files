@@ -48,14 +48,20 @@ class ModuleTest extends \Codeception\Test\Unit {
     $blog->posts = dirname(__DIR__)."/_data/posts";
     $blog->drafts = dirname(__DIR__)."/_data/drafts";
 
-    expect('fetch should scan the $posts directory and return the markdown files in descending order', $this->assertEquals([
-        dirname(__DIR__).'/_data/posts/2017-05-20_test_post_1.md',
-        dirname(__DIR__).'/_data/posts/2017-05-21_test_post_2.md',
-        dirname(__DIR__).'/_data/posts/2017-05-22_test_post_3.md',
-        dirname(__DIR__).'/_data/drafts/2017-05-23_test_draft_1.md',
-        dirname(__DIR__).'/_data/drafts/2017-05-24_test_draft_2.md',
-        dirname(__DIR__).'/_data/drafts/2017-05-25_test_draft_3.md',
-      ], $blog->fetch()->files));
+    $expected = [
+      dirname(__DIR__).'/_data/posts/2017-05-20_test_post_1.md',
+      dirname(__DIR__).'/_data/posts/2017-05-21_test_post_2.md',
+      dirname(__DIR__).'/_data/posts/2017-05-22_test_post_3.md',
+      dirname(__DIR__).'/_data/drafts/2017-05-23_test_draft_1.md',
+      dirname(__DIR__).'/_data/drafts/2017-05-24_test_draft_2.md',
+      dirname(__DIR__).'/_data/drafts/2017-05-25_test_draft_3.md',
+    ];
+    sort($expected, SORT_NATURAL);
+
+    $actual = $blog->fetch()->files;
+    sort($actual, SORT_NATURAL);
+
+    expect('fetch should scan the $posts directory and return the markdown files in descending order', $this->assertEquals($expected, $actual));
 
     $this->specify('fetch should throw an exception', function() use($blog) {
       $this->expectException('\yii\base\InvalidParamException');

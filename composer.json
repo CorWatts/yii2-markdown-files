@@ -21,6 +21,11 @@
     "issues": "https://github.com/CorWatts/yii2-markdown-files/issues",
     "source": "https://github.com/CorWatts/yii2-markdown-files"
   },
+  "config": {
+    "platform": {
+      "php": "7.0.1"
+    }
+  },
   "scripts": {
     "test": "codecept run",
     "test-scaffold": "codecept build",
