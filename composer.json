@@ -21,30 +21,35 @@
     "issues": "https://github.com/CorWatts/yii2-markdown-files/issues",
     "source": "https://github.com/CorWatts/yii2-markdown-files"
   },
-  "config": {
-    "platform": {
-      "php": "7.0.1"
-    }
-  },
   "scripts": {
     "test": "codecept run",
     "test-scaffold": "codecept build",
-    "test-coverage": "codecept run --coverage --coverage-xml --coverage-html --ansi"
+    "test-coverage": "XDEBUG_MODE=coverage codecept run --coverage --coverage-xml --coverage-html --ansi"
   },
   "require": {
-    "php": ">=7.0",
-    "hyn/frontmatter": "~1.1",
-    "yiisoft/yii2": "*"
+    "hyn/frontmatter": "dev-master",
+    "yiisoft/yii2": "~2.0.0"
   },
   "require-dev": {
-    "codeception/base": "^2.2.3",
-    "codeception/verify": "~0.3.1",
-    "codeception/specify": "~0.4.3",
-    "codeception/codeception": "^2.2"
+    "codeception/verify": "^3.0",
+    "codeception/module-asserts": "^3.0",
+    "codeception/module-yii2": "^1.1",
+    "codeception/codeception": "^5.0"
   },
   "autoload": {
     "psr-4": {
       "corwatts\\MarkdownFiles\\": ""
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true
     }
   }
 }

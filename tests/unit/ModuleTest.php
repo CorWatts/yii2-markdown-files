@@ -3,12 +3,9 @@
 namespace corwatts\tests;
 
 use yii;
-use Codeception\Specify;
 use \corwatts\MarkdownFiles\Module;
-use \InvalidArgumentException;
 
 class ModuleTest extends \Codeception\Test\Unit {
-  use Specify;
 
   public function testParseName() {
     $blog = new Module('blog');
@@ -63,11 +60,10 @@ class ModuleTest extends \Codeception\Test\Unit {
 
     expect('fetch should scan the $posts directory and return the markdown files in descending order', $this->assertEquals($expected, $actual));
 
-    $this->specify('fetch should throw an exception', function() use($blog) {
-      $this->expectException('\yii\base\InvalidParamException');
-      $this->expectExceptionMessage('The dir argument must be a directory: /bad/path/here/so/throw');
+    // fetch should throw an exception
+    $this->tester->expectThrowable(new yii\base\InvalidArgumentException('The dir argument must be a directory: /bad/path/here/so/throw'), function() use($blog) {
       $blog->posts = '/bad/path/here/so/throw';
-      expect('fetch should throw an exception if FileHelper:findFiles() throws', $blog->fetch()->files);
+      $blog->fetch()->files;
     });
   }
 
@@ -89,9 +85,10 @@ class ModuleTest extends \Codeception\Test\Unit {
     $blog->posts = '@app//_data\posts';
     expect('getPath should return a properly dealiased and normalized path when given something a bit off', $this->assertEquals(dirname(__DIR__).'/_data/posts', $blog->getPath($blog->posts)));
 
-    $this->specify('getPath should throw an exception if not given a string', function() use($blog) {
-      $this->expectException("\InvalidArgumentException");
-      expect('getPath should only accept a string',  $blog->getPath(123));
+    // getPath should throw an exception if not given a string
+    $this->tester->expectThrowable("\InvalidArgumentException", function() use($blog) {
+      // getPath should only accept a string
+      $blog->getPath(123);
     });
   }
 
@@ -103,4 +100,3 @@ class ModuleTest extends \Codeception\Test\Unit {
     expect('sort should sort an array of parsed files by date descending', $this->assertEquals($blog->sort($data), $sorted_data));
   }
 }
-
