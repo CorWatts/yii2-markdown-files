@@ -1,6 +1,6 @@
 # Yii2 Markdown Files
 
-[![Build Status](https://travis-ci.org/CorWatts/yii2-markdown-files.svg?branch=master)](https://travis-ci.org/CorWatts/yii2-markdown-files)
+![Build Status](https://github.com/corwatts/yii2-markdown-files/actions/workflows/actions.yml/badge.svg)
 [![codecov](https://codecov.io/gh/CorWatts/yii2-markdown-files/branch/master/graph/badge.svg)](https://codecov.io/gh/CorWatts/yii2-markdown-files)
 
 yii2-markdown-files provides a simple way to write updates, posts, or blocks of text in individual Markdown files with YAML frontmatter, render them on the fly and use the rendered HTML and frontmatter however you like.
@@ -118,3 +118,7 @@ To enable this, bootstrap the BlogController by adding it to the bootstrap array
 ```
 
 Now you can execute `./yii blog/create hello_world`. Provide a descriptive snake_cased slug like `my_first_post`. It will generate a post template and print out its location. Edit this template to write your post.
+
+
+### Testing
+Unit tests are included with this codebase. First scaffold the testing framework via `composer test-scaffold` (this only needs to be ran the first time). The unit tests can then be ran via `composer test` and coverage can be generated via `composer test-coverage`.
