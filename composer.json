@@ -28,7 +28,8 @@
   },
   "require": {
     "hyn/frontmatter": "dev-master",
-    "yiisoft/yii2": "~2.0.0"
+    "yiisoft/yii2": "~2.0.0",
+    "symfony/yaml": "^7.1"
   },
   "require-dev": {
     "codeception/verify": "^3.0",
